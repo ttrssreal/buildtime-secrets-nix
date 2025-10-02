@@ -1,0 +1,20 @@
+[package]
+name = "libnixstore"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cxx = "1.0.170"
+rustversion = "1.0.22"
+tracing = "0.1.41"
+tracing-attributes = "0.1.30"
+
+[build-dependencies]
+cxx-build = "1.0.170"
+system-deps = "7.0.5"
+
+[package.metadata.system-deps]
+nix-store = "2.28.4"
+nix-main = "2.28.4"
+nix-cmd = "2.28.4"
+nix-expr-c = "2.28.4"
