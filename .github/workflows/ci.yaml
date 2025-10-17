@@ -1,0 +1,60 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  pull_request:
+
+env: 
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Setup tests
+        run: ./libnixstore/setup-tests.sh
+
+      - name: Run tests
+        run: |
+          nix develop --command -- bash -c '
+            cargo test --all-features --verbose
+          '
+
+  formatting:
+    name: Formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Setup tests
+        run: ./libnixstore/setup-tests.sh
+
+      - name: Run clippy
+        run: |
+          nix develop --command -- bash -c '
+            cargo clippy --all-targets -- -D warnings
+          '
+
+      - name: Rustfmt Check
+        uses: actions-rust-lang/rustfmt@v1
