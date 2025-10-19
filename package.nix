@@ -3,12 +3,20 @@
   pkg-config,
   nix_2_31,
   boost,
+  fetchFromGitHub,
   ...
 }:
 rustPlatform.buildRustPackage {
-  name = "buildtime-secrets-pre-build-hook";
+  name = "buildtime-secrets-nix";
 
-  src = ./.;
+  src = fetchFromGitHub {
+    owner = "ttrssreal";
+    repo = "buildtime-secrets-nix";
+    rev = "87c6fc519cbb954949a3ae87d0c3ad3b925ea22d";
+    hash = "sha256-LogILnrCVHFDmeAYLYW2CNdhZ6nVY2vaLI6Tyxwgp8A=";
+  };
+
+  cargoHash = "sha256-O3M65SoRWypi+20IXw83nzmsS0gbNtbblQrztsXuYJc=";
 
   doCheck = false;
   strictDeps = true;
@@ -21,8 +29,6 @@ rustPlatform.buildRustPackage {
     nix_2_31.dev
     boost.dev
   ];
-
-  cargoHash = "sha256-Ug7vUeQVmxevMpCIfPdlvCekLPoZjIvuF1LYNbH9NBc=";
 
   meta = {
     description = "Pre-build hook enabling secure, reproducible secret access in derivations";
