@@ -61,7 +61,17 @@
               clang-format.enable = true;
             };
 
-            packages.default = pkgs.callPackage ./package.nix { inherit nix_2_31; };
+            packages = {
+              default = pkgs.callPackage ./package.nix { inherit nix_2_31; };
+              lib = pkgs.stdenv.mkDerivation {
+                dontUnpack = true;
+                dontBuild = true;
+
+                passthru = {
+                  fetchS3 = pkgs.callPackage ./fetch-s3.nix { };
+                };
+              };
+            };
           };
 
         systems = import systems;
