@@ -30,7 +30,8 @@
         flake.nixosModules.default = moduleWithSystem (import ./modules/buildtime-secrets.nix);
 
         flake.overlays.default = _final: prev: {
-          fetchS3 = prev.callPackage ./fetch-s3.nix { };
+          # override nixpkgs `fetchs3` with a better one
+          fetchs3 = prev.callPackage ./fetch-s3.nix { };
         };
 
         perSystem =
