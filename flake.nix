@@ -29,6 +29,10 @@
 
         flake.nixosModules.default = moduleWithSystem (import ./modules/buildtime-secrets.nix);
 
+        flake.overlays.default = _final: prev: {
+          fetchS3 = prev.callPackage ./fetch-s3.nix { };
+        };
+
         perSystem =
           { system, pkgs, ... }:
           let
@@ -61,17 +65,7 @@
               clang-format.enable = true;
             };
 
-            packages = {
-              default = pkgs.callPackage ./package.nix { inherit nix_2_31; };
-              lib = pkgs.stdenv.mkDerivation {
-                dontUnpack = true;
-                dontBuild = true;
-
-                passthru = {
-                  fetchS3 = pkgs.callPackage ./fetch-s3.nix { };
-                };
-              };
-            };
+            packages.default = pkgs.callPackage ./package.nix { inherit nix_2_31; };
           };
 
         systems = import systems;
