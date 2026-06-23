@@ -3,20 +3,14 @@
   pkg-config,
   nix_2_31,
   boost,
-  fetchFromGitHub,
   ...
 }:
 rustPlatform.buildRustPackage {
   name = "buildtime-secrets-nix";
 
-  src = fetchFromGitHub {
-    owner = "ttrssreal";
-    repo = "buildtime-secrets-nix";
-    rev = "87c6fc519cbb954949a3ae87d0c3ad3b925ea22d";
-    hash = "sha256-LogILnrCVHFDmeAYLYW2CNdhZ6nVY2vaLI6Tyxwgp8A=";
-  };
+  src = ./.;
 
-  cargoHash = "sha256-O3M65SoRWypi+20IXw83nzmsS0gbNtbblQrztsXuYJc=";
+  cargoHash = "sha256-JNwRDFAxHkFANUji2fJ33jhct9eVdRxS8ePaSs63UGI=";
 
   doCheck = false;
   strictDeps = true;

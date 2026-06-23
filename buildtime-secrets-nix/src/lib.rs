@@ -32,22 +32,16 @@ pub struct Provisioner<'a> {
 impl<'a> Provisioner<'a> {
     /// Create a new context for provisioning secrets
     /// for a derivation.
-    ///
-    /// # Errors
-    ///
-    /// If we can't parse the derivation path or get
-    /// the derivation name.
-    pub fn new(config: &'a Config) -> Result<Self> {
-        let store = Store::new()?;
-
-        let derivation = store.parse_store_path(&config.derivation)?;
+    pub fn new(config: &'a Config) -> Option<Self> {
+        let store = Store::new().ok()?;
+        let derivation = store.parse_store_path(&config.derivation).ok()?;
 
         // https://github.com/tokio-rs/tracing/issues/2448
         // https://github.com/tokio-rs/tracing/issues/2704
-        let derivation_name = store.derivation_name(&derivation)?;
+        let derivation_name = store.derivation_name(&derivation).ok()?;
         debug!("derivation name: {}", derivation_name);
 
-        Ok(Self {
+        Some(Self {
             config,
             store,
             derivation,

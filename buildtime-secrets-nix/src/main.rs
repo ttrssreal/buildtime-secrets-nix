@@ -127,7 +127,10 @@ fn run() -> Result<(), Error> {
     config.derivation = args.nth(1).ok_or(Error::GetDerivationPath)?;
     debug!("finished config: {config:?}");
 
-    let provisioner = buildtime_secrets_nix::Provisioner::new(&config)?;
+    let Some(provisioner) = buildtime_secrets_nix::Provisioner::new(&config) else {
+        warn!("failed to instantiate provisioner... ignoring");
+        return Ok(());
+    };
 
     provisioner.provision_all()?;
 
