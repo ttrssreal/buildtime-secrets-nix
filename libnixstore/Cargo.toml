@@ -11,7 +11,7 @@ tracing-attributes = "0.1.30"
 
 [build-dependencies]
 cxx-build = "1.0.170"
-system-deps = "7.0.5"
+system-deps = "8.0.0"
 
 [package.metadata.system-deps]
 nix-store = "2.28.4"
