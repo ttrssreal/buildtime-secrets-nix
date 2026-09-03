@@ -10,7 +10,9 @@ rustPlatform.buildRustPackage {
 
   src = ./.;
 
-  cargoHash = "sha256-JNwRDFAxHkFANUji2fJ33jhct9eVdRxS8ePaSs63UGI=";
+  cargoLock = {
+    lockFile = ./Cargo.lock;
+  };
 
   doCheck = false;
   strictDeps = true;
